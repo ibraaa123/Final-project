@@ -1,3 +1,46 @@
-Import pandas as pd 
-df=Pd.read_csv(‘Algerian_forest_fires_dataset_UPDATE’)
-print(df.to_string()) 
+Full name : Ibrahim Lisouf 
+Goal : We wrote this code to analyse the dataset obtained from Algerian forests and to obtain to study linear regression between the attributes 
+import pandas as pd #We imported the Pndas library with the aim to analyse and manipulate our data 
+import matplotlib.pyplot as plt# We import the matplotlib library to  creates a figure, 
+#creates a plotting area in a figure, plots some lines in a plotting area, decorates the plot with labels.
+import os # i have imported os to change the directory so that my data can be accessed 
+os.chdir('C:\\Users\\brahi\\OneDrive\\Bureau')#changing the directory 
+df=pd.read_csv('Algerian_forest_fires_dataset_UPDATE.csv')# reading the csv file
+print(df.to_string())#printing the whole file and its data 
+df.info()#there is no null values so there is no need to delete empty rows , we have one missing value in Classes 243 therefore we ll need to delete that row 
+df.dropna(inplace=True)#remove all rows with NULL values
+df.info()# to get informations about the data , we can say now we have 243  non null rows 
+df.drop_duplicates(inplace=True)#dropping duplicates ,he (inplace = True) will make sure that the method does NOT return a new DataFrame, but it will remove all duplicates from the original DataFrame.
+# remove spaces in columns name
+df.columns = df.columns.str.replace(' ','')
+#As dataset having lot of extra spaces in cell so lets remove them using strip() function
+df['Classes'].str.strip()
+df['Classes'].replace({'fire   ':1,'not fire   ':0},inplace=True)# here we replace the values fire and not fire with the boolean variables 0 and 1 where fire is 1 (True) and 0 is not fire (False )
+print(df.to_string())#printing the datasets to make sure that all fire and not fire is replaced 
+df['Classes'].replace({'fire':1,'not fire':0},inplace=True)
+print(df.to_string())#printing the datasets to make sure that all fire and not fire is replaced 
+df.Classes=df.Classes.astype('bool')#Here we changed the type of the attribute 'Classes' to boolean type sine we only have 0s and 1s
+df.info()
+df.describe()#to get the mean , standard deviation ...
+#The first step is to import the package numpy and the class LinearRegression from sklearn.linear_model
+from scipy import stats
+import numpy as np
+from sklearn.linear_model import LinearRegression
+x=np.array(df['DMC']).reshape((-1,1))#The second step is defining data to work with. The inputs (regressors, 𝑥) and output (predictor, 𝑦) should be arrays (the instances of the class numpy.ndarray) or similar objects.
+# This is the simplest way of providing data for regression
+#Now, you have two arrays: the input x and output y. You should call .reshape() on x because this array is required to be two-dimensional, or to be more precise, to have one column and as many rows as necessary. 
+#That’s exactly what the argument (-1, 1) of .reshape() specifies.
+y=np.array(df['BUI'])
+model=LinearRegression()#create a linear regression model and fit it using the existing data
+model.fit(x,y)# To see the linear regression between BUI and DMC
+LinearRegression()
+model=LinearRegression().fit(x,y)#With .fit(), you calculate the optimal values of the weights 𝑏₀ and 𝑏₁, using the existing input and output (x and y) as the arguments. In other words, .fit() fits the model. 
+#It returns self, which is the variable model itself
+r_sq =model.score(x,y)#Once we have the model fitted, we can get the results to check whether the model works satisfactorily and interpret it.
+#we can obtain the coefficient of determination (𝑅²) with .score() called on model
+print('coefficient of determination:',r_sq)
+import seaborn as sns
+sns.pairplot(df,vars=['Temperature','FFMC','DMC','ISI','BUI'],hue='Classes')# this function will create a grid of Axes such that each numeric variable in data will by shared across the y-axes across a single row and the x-axes across a single column. The diagonal plots are treated differently: a univariate distribution plot is drawn to show the marginal distribution of the data in each column. we decided to include the variables with correlations greater or equal to 0.5
+
+
+
