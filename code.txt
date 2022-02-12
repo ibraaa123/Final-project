@@ -1,5 +1,5 @@
 Full name : Ibrahim Lisouf 
-Goal : We wrote this code to analyse the dataset obtained from Algerian forests and to obtain to study linear regression between the attributes 
+Goal : We wrote this code to analyse the dataset obtained from Algerian forests and to obtain results based on linear regression between the attributes who have a correlation greater or equal than 0.5 with the attribute 'Classes'
 import pandas as pd #We imported the Pndas library with the aim to analyse and manipulate our data 
 import matplotlib.pyplot as plt# We import the matplotlib library to  creates a figure, 
 #creates a plotting area in a figure, plots some lines in a plotting area, decorates the plot with labels.
